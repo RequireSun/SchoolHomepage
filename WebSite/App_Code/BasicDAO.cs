@@ -114,7 +114,7 @@ public class BasicDAO
     }
     #endregion
 
-    #region 执行参数命令文本
+    #region ExecNonQuery()根据指定的参数执行命令（用于删除，更新，插入）
     /// <summary>
     /// 根据指定的参数执行命令（用于删除，更新，插入）
     /// </summary>
@@ -148,96 +148,79 @@ public class BasicDAO
     }
     #endregion
 
-    #region 返回SqlDataAdapter 对象
-
+    #region GetAdapter()根据sql语句和参数获得SqlDataAdapter对象
     /// <summary>
-    /// 返回SqlDataAdapter 对象
+    /// 根据sql语句和参数获得SqlDataAdapter对象
     /// </summary>
     /// <param name="sql">sql语句</param>
-    /// <param name="para">SqlParameter数组</param>
-    /// <returns>SqlDataAdapter</returns>
-
-    public SqlDataAdapter ReADP(string sql, SqlParameter[] paras)
+    /// <param name="parameters">SqlParameter数组</param>
+    /// <returns>生成的Adapter</returns>
+    public SqlDataAdapter GetAdapter(string sql, SqlParameter[] parameters)
     {
-        this.Open();
         // 创建数据适配器
-        SqlDataAdapter da = new SqlDataAdapter(sql, connection);
+        SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, connection);
         // 数据库执行的类型
-        da.SelectCommand.CommandType = CommandType.Text;
+        dataAdapter.SelectCommand.CommandType = CommandType.Text;
 
-        if (paras != null)
+        if (parameters != null)
         {
-            foreach (SqlParameter pa in paras)
+            foreach (SqlParameter pa in parameters)
             {
-                da.SelectCommand.Parameters.Add(pa);
+                dataAdapter.SelectCommand.Parameters.Add(pa);
             }
         }
-        this.Close();
-        return da;
+        return dataAdapter;
     }
-
     #endregion
 
-    #region 返回dataset
-
+    #region GetDateSet()根据sql语句和参数获取一组数据
     /// <summary>
-    /// 返回dataset的执行函数
+    /// 返回DataSet的执行函数
     /// </summary>
-    /// <param name="sql"></param>
-    /// <param name="para"></param>
-    /// <param name="table_name">为返回dataset的表名</param>
-    /// <returns></returns>
+    /// <param name="sql">sql语句</param>
+    /// <param name="parameters">SqlParameter数组</param>
+    /// <param name="tableName">数据存储在DataSet中的目的表名</param>
+    /// <returns>存储数据的DataSet</returns>
 
-    public DataSet GetDateSet(string sql, SqlParameter[] paras, string tablename)
+    public DataSet GetDateSet(string sql, SqlParameter[] parameters, string tableName)
     {
-        SqlDataAdapter da = this.ReADP(sql, paras);
-        DataSet ds = new DataSet();
+        SqlDataAdapter adapter = this.GetAdapter(sql, parameters);
+        DataSet dataset = new DataSet();
 
         try
         {
-            da.Fill(ds, tablename);
-
+            adapter.Fill(dataset, tableName);
         }
         catch (Exception e)
         {
             throw new Exception(e.Message, e);
         }
-        finally
-        {
-            this.Close();
-        }
 
-        return ds;
+        return dataset;
     }
 
     /// <summary>
-    /// 返回dataset的执行函数  不指定表名
+    /// 返回DataSet的执行函数 不指定表名
     /// </summary>
-    /// <param name="sql"></param>
-    /// <param name="para"></param>
-    /// <returns></returns>
-
-    public DataSet GetDataSet(string sql, SqlParameter[] para)
+    /// <param name="sql">sql语句</param>
+    /// <param name="parameters">SqlParameter数组</param>
+    /// <returns>存储数据的DataSet</returns>
+    public DataSet GetDataSet(string sql, SqlParameter[] parameters)
     {
-        SqlDataAdapter da = this.ReADP(sql, para);
-        DataSet ds = new DataSet();
+        SqlDataAdapter adapter = this.GetAdapter(sql, parameters);
+        DataSet dataset = new DataSet();
 
         try
         {
-            da.Fill(ds);
+            adapter.Fill(dataset);
         }
         catch (Exception e)
         {
             throw new Exception(e.Message, e);
         }
-        finally
-        {
-            this.Close();
-        }
 
-        return ds;
+        return dataset;
     }
-
     #endregion
 
     #region 返回指定行相应列的内容
@@ -309,7 +292,7 @@ public class BasicDAO
         //System.Diagnostics.Debug.WriteLine(sql);
         //CloseConnection();
 
-        SqlCommand cmd = this.ReCMD(sql, para);
+        SqlCommand cmd = this.GetCommand(sql, para);
         int count = Convert.ToInt32(cmd.ExecuteScalar());
         this.Close();
 
