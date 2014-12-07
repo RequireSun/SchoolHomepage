@@ -7,12 +7,11 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// BasicDAO 的摘要说明
+/// BasicDAO是用来与数据库进行交互的基础类
 /// </summary>
 public class BasicDAO
 {
     private SqlConnection connection = null;
-    //public SqlConnection CON { get { return this.connection; } }
 
     #region Open()开启数据库连接&Close()关闭数据库连接
     /// <summary>
@@ -101,7 +100,6 @@ public class BasicDAO
     /// <returns>具有数据库连接和操作的command对象</returns>
     public SqlCommand GetCommand(string sql, SqlParameter[] parameters)
     {
-        //this.Open();
         SqlCommand command = new SqlCommand(sql, connection);
         if (parameters != null)
         {
@@ -223,87 +221,113 @@ public class BasicDAO
     }
     #endregion
 
-    #region 返回指定行相应列的内容
-
+    #region GetSingleData()返回指定行相应列的内容
     /// <summary>
-    /// 返回指定行相应列的内容
+    /// 返回指定行相应列的内容（常用于查询单条信息）
     /// </summary>
     /// <param name="sql">传入的sql语句</param>
-    /// <param name="para">参数</param>
-    /// <param name="cow"> 列的引索</param>
+    /// <param name="parameters">参数数组</param>
+    /// <param name="cowNumber">列的引索</param>
     /// <returns>该位置上的值的字符串形式</returns>
-
-    public string ReString(string sql, SqlParameter[] para, int cow)
+    public string GetSingleDataInColumn(string sql, SqlParameter[] parameters, int cowNumber)
     {
-        DataSet ds = this.GetDataSet(sql, para);
+        DataSet dataset = this.GetDataSet(sql, parameters);
 
-        if (ds != null)
+        if (null != dataset && 0 != dataset.Tables.Count && 0 != dataset.Tables[0].Rows.Count)
         {
-            if (ds.Tables[0].Rows.Count != 0)
-            {
-                return ds.Tables[0].Rows[0][cow].ToString();
-            }
-            return "";
+            return dataset.Tables[0].Rows[0][cowNumber].ToString();
         }
         else
         {
-            return "";
+            return string.Empty;
         }
     }
 
-    public List<string> GetAllStringInColumn(string sql, SqlParameter[] para, string cowName)
+    /// <summary>
+    /// 返回指定行相应列的内容（常用于查询单条信息）
+    /// </summary>
+    /// <param name="sql">传入的sql语句</param>
+    /// <param name="parameters">参数数组</param>
+    /// <param name="cowName">列的引索</param>
+    /// <returns>该位置上的值的字符串形式</returns>
+    public string GetSingleDataInColumn(string sql, SqlParameter[] parameters, string cowName)
     {
-        DataSet ds = this.GetDataSet(sql, para);
-        List<string> res = new List<string>();
+        DataSet dataset = this.GetDataSet(sql, parameters);
 
-        if (ds != null&&ds.Tables[0].Rows.Count != 0)
+        if (null != dataset && 0 != dataset.Tables.Count && 0 != dataset.Tables[0].Rows.Count)
         {
-            foreach(DataRow DRC in ds.Tables[0].Rows)
+            return dataset.Tables[0].Rows[0][cowName].ToString();
+        }
+        else
+        {
+            return string.Empty;
+        }
+    }
+    #endregion
+
+    #region GetAllDataInColumn()返回语句结果的相应列的内容的字符串形式的数组
+    /// <summary>
+    /// 返回指定行相应列的内容组（常用于查询多条信息）
+    /// </summary>
+    /// <param name="sql">传入的sql语句</param>
+    /// <param name="parameters">参数数组</param>
+    /// <param name="cowName">列的引索</param>
+    /// <returns>该位置上的值的字符串形式的数组</returns>
+    public List<string> GetAllDataInColumn(string sql, SqlParameter[] parameters, string cowName)
+    {
+        DataSet dataset = this.GetDataSet(sql, parameters);
+        List<string> result = new List<string>();
+
+        if (null != dataset && 0 != dataset.Tables.Count && 0 != dataset.Tables[0].Rows.Count)
+        {
+            foreach (DataRow DRC in dataset.Tables[0].Rows)
             {
-                res.Add(DRC[cowName].ToString());
+                result.Add(DRC[cowName].ToString());
             }
         }
 
-        return res;
+        return result;
     }
-
     #endregion
 
-    public bool ClearTable(string inTableName) 
+    #region ClearTable()清空表（请谨慎使用）
+    /// <summary>
+    /// 清空表（请谨慎使用）
+    /// </summary>
+    /// <param name="tableName">目标表名</param>
+    /// <returns>是否清除成功（若目标表本身就为空，也会返回错误）</returns>
+    public bool ClearTable(string tableName) 
     {
-        string sql = "delete from " + inTableName;
-        int i = 0;
+        string sql = "delete from " + tableName;
+        int affectedLine = 0;
+
         try
         {
-            i = ExecNonQuery(sql, null);
+            affectedLine = ExecNonQuery(sql, null);
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine(ex);
         }
-        return i > 0 ? true : false;
+
+        return affectedLine > 0 ? true : false;
     }
+    #endregion
 
-    public bool CheckExistInDB(string sql, SqlParameter[] para)
+    #region CheckExistInDatabase()执行某条语句，并检测结果
+    /// <summary>
+    /// CheckExistInDatabase()执行某条语句，并检测结果
+    /// </summary>
+    /// <param name="tableName">目标表名</param>
+    /// <returns>返回语句执行结果（若所执行的语句本身就没有返回值，则也会返回错误）</returns>
+    public bool CheckExistInDatabase(string sql, SqlParameter[] parameters)
     {
-        //this.Open();
-        //SqlCommand sc = new SqlCommand(sql, con);
-        //sc.Connection.Open();
-        //System.Diagnostics.Debug.WriteLine(sql);
-        //CloseConnection();
-
-        SqlCommand cmd = this.GetCommand(sql, para);
-        int count = Convert.ToInt32(cmd.ExecuteScalar());
+        SqlCommand command = this.GetCommand(sql, parameters);
+        this.Close();
+        int count = Convert.ToInt32(command.ExecuteScalar());
         this.Close();
 
-        if (count > 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return count > 0 ? true : false;
     }
-
+    #endregion
 }
