@@ -1,4 +1,4 @@
 SchoolHomepage
 ==============
 
-The homepage pf my school.
+The homepage of my school.
