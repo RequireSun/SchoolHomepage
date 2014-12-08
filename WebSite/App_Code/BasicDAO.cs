@@ -330,4 +330,24 @@ public class BasicDAO
         return count > 0 ? true : false;
     }
     #endregion
+
+    #region ExecStoredProcedure()执行存储过程，并返回结果
+    /// <summary>
+    /// ExecStoredProcedure()执行存储过程，并返回结果
+    /// </summary>
+    /// <param name="sql">传入的sql语句</param>
+    /// <param name="parameters">参数数组</param>
+    /// <returns>返回存储过程执行结果</returns>
+    public object ExecStoredProcedure(string procedureName, SqlParameter[] parameters)
+    {
+        SqlCommand command = GetCommand(procedureName, parameters);
+        command.CommandType = CommandType.StoredProcedure;
+
+        this.Open();
+        object result = command.ExecuteNonQuery();
+        this.Close();
+
+        return result;
+    }
+    #endregion
 }
