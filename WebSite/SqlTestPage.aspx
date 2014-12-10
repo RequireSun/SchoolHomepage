@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="index.aspx.cs" Inherits="index" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="SqlTestPage.aspx.cs" Inherits="SqlTestPage" %>
 
 <!DOCTYPE html>
 
@@ -9,7 +9,9 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <asp:Label ID="welcome" runat="server" />
+    <div>
+        <asp:Label ID="result_label" runat="server"></asp:Label>
+    </div>
     </form>
 </body>
 </html>
