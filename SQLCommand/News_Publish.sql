@@ -1,15 +1,15 @@
 USE [SchoolHomepage]
 GO
 
-/****** Object:  StoredProcedure [dbo].[Publish_News]    Script Date: 12/09/2014 14:34:22 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Publish_News]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[Publish_News]
+/****** Object:  StoredProcedure [dbo].[News_Publish]    Script Date: 12/10/2014 13:52:05 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[News_Publish]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[News_Publish]
 GO
 
 USE [SchoolHomepage]
 GO
 
-/****** Object:  StoredProcedure [dbo].[Publish_News]    Script Date: 12/09/2014 14:34:22 ******/
+/****** Object:  StoredProcedure [dbo].[News_Publish]    Script Date: 12/10/2014 13:52:05 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -21,7 +21,7 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE [dbo].[Publish_News]
+CREATE PROCEDURE [dbo].[News_Publish]
 	-- Add the parameters for the stored procedure here
 	@Category_ID INT , 
 	@Supervisor_ID INT ,
