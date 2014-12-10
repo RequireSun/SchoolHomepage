@@ -11,17 +11,17 @@ using System.Web;
 /// </summary>
 public class BasicDAO
 {
-    private SqlConnection connection = null;
+    private SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
 
     #region Open()开启数据库连接&Close()关闭数据库连接
     /// <summary>
     /// 开启数据库连接，若连接不存在，新建该连接并打开
     /// </summary>
-    public void Open()
+    private void Open()
     {
-        if (connection == null)
+        if (null == connection)
         {
-            connection = new SqlConnection(ConfigurationManager.AppSettings["ConnectionString"]);
+            connection = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ToString());
             connection.Open();
         }
         else if (System.Data.ConnectionState.Closed == connection.State)
@@ -33,7 +33,7 @@ public class BasicDAO
     /// <summary>
     /// 关闭数据库连接
     /// </summary>
-    public void Close()
+    private void Close()
     {
         if (null != connection)
         {
@@ -98,7 +98,7 @@ public class BasicDAO
     /// <param name="sql">输入的sql语句</param>
     /// <param name="para">参数，允许为null</param>
     /// <returns>具有数据库连接和操作的command对象</returns>
-    public SqlCommand GetCommand(string sql, SqlParameter[] parameters)
+    private SqlCommand GetCommand(string sql, SqlParameter[] parameters)
     {
         SqlCommand command = new SqlCommand(sql, connection);
         if (parameters != null)
@@ -119,7 +119,7 @@ public class BasicDAO
     /// <param name="sql">输入的sql语句</param>
     /// <param name="parameters">参数，允许为null</param>
     /// <returns>受影响的行数</returns>
-    public int ExecNonQuery(string sql, SqlParameter[] parameters)
+    protected int ExecNonQuery(string sql, SqlParameter[] parameters)
     {
         int affectedLine = 0;
 
@@ -153,7 +153,7 @@ public class BasicDAO
     /// <param name="sql">sql语句</param>
     /// <param name="parameters">SqlParameter数组</param>
     /// <returns>生成的Adapter</returns>
-    public SqlDataAdapter GetAdapter(string sql, SqlParameter[] parameters)
+    private SqlDataAdapter GetAdapter(string sql, SqlParameter[] parameters)
     {
         // 创建数据适配器
         SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, connection);
@@ -180,7 +180,7 @@ public class BasicDAO
     /// <param name="tableName">数据存储在DataSet中的目的表名</param>
     /// <returns>存储数据的DataSet</returns>
 
-    public DataSet GetDateSet(string sql, SqlParameter[] parameters, string tableName)
+    protected DataSet GetDateSet(string sql, SqlParameter[] parameters, string tableName)
     {
         SqlDataAdapter adapter = this.GetAdapter(sql, parameters);
         DataSet dataset = new DataSet();
@@ -203,7 +203,7 @@ public class BasicDAO
     /// <param name="sql">sql语句</param>
     /// <param name="parameters">SqlParameter数组</param>
     /// <returns>存储数据的DataSet</returns>
-    public DataSet GetDataSet(string sql, SqlParameter[] parameters)
+    protected DataSet GetDataSet(string sql, SqlParameter[] parameters)
     {
         SqlDataAdapter adapter = this.GetAdapter(sql, parameters);
         DataSet dataset = new DataSet();
@@ -229,7 +229,7 @@ public class BasicDAO
     /// <param name="parameters">参数数组</param>
     /// <param name="cowNumber">列的引索</param>
     /// <returns>该位置上的值的字符串形式</returns>
-    public string GetSingleDataInColumn(string sql, SqlParameter[] parameters, int cowNumber)
+    protected string GetSingleDataInColumn(string sql, SqlParameter[] parameters, int cowNumber)
     {
         DataSet dataset = this.GetDataSet(sql, parameters);
 
@@ -250,7 +250,7 @@ public class BasicDAO
     /// <param name="parameters">参数数组</param>
     /// <param name="cowName">列的引索</param>
     /// <returns>该位置上的值的字符串形式</returns>
-    public string GetSingleDataInColumn(string sql, SqlParameter[] parameters, string cowName)
+    protected string GetSingleDataInColumn(string sql, SqlParameter[] parameters, string cowName)
     {
         DataSet dataset = this.GetDataSet(sql, parameters);
 
@@ -273,7 +273,7 @@ public class BasicDAO
     /// <param name="parameters">参数数组</param>
     /// <param name="cowName">列的引索</param>
     /// <returns>该位置上的值的字符串形式的数组</returns>
-    public List<string> GetAllDataInColumn(string sql, SqlParameter[] parameters, string cowName)
+    protected List<string> GetAllDataInColumn(string sql, SqlParameter[] parameters, string cowName)
     {
         DataSet dataset = this.GetDataSet(sql, parameters);
         List<string> result = new List<string>();
@@ -296,7 +296,7 @@ public class BasicDAO
     /// </summary>
     /// <param name="tableName">目标表名</param>
     /// <returns>是否清除成功（若目标表本身就为空，也会返回错误）</returns>
-    public bool ClearTable(string tableName) 
+    protected bool ClearTable(string tableName) 
     {
         string sql = "delete from " + tableName;
         int affectedLine = 0;
@@ -320,7 +320,7 @@ public class BasicDAO
     /// </summary>
     /// <param name="tableName">目标表名</param>
     /// <returns>返回语句执行结果（若所执行的语句本身就没有返回值，则也会返回错误）</returns>
-    public bool CheckExistInDatabase(string sql, SqlParameter[] parameters)
+    protected bool CheckExistInDatabase(string sql, SqlParameter[] parameters)
     {
         SqlCommand command = this.GetCommand(sql, parameters);
         this.Close();
@@ -338,7 +338,7 @@ public class BasicDAO
     /// <param name="sql">传入的sql语句</param>
     /// <param name="parameters">参数数组</param>
     /// <returns>返回存储过程执行结果</returns>
-    public object ExecStoredProcedure(string procedureName, SqlParameter[] parameters)
+    protected object ExecStoredProcedure(string procedureName, SqlParameter[] parameters)
     {
         SqlCommand command = GetCommand(procedureName, parameters);
         command.CommandType = CommandType.StoredProcedure;
@@ -350,4 +350,25 @@ public class BasicDAO
         return result;
     }
     #endregion
+
+    protected DataSet ExecStoredProcedureGetDataSet(string procedureName, SqlParameter[] parameters)
+    {
+        SqlDataAdapter adapter = this.GetAdapter(procedureName, parameters);
+        adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+
+        DataSet dataset = new DataSet();
+
+        this.Open();
+        try
+        {
+            adapter.Fill(dataset);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message, e);
+        }
+        this.Close();
+
+        return dataset;
+    }
 }
