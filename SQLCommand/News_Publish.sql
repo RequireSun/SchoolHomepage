@@ -1,7 +1,7 @@
 USE [SchoolHomepage]
 GO
 
-/****** Object:  StoredProcedure [dbo].[News_Publish]    Script Date: 12/10/2014 13:52:05 ******/
+/****** Object:  StoredProcedure [dbo].[News_Publish]    Script Date: 12/10/2014 16:18:08 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[News_Publish]') AND type in (N'P', N'PC'))
 DROP PROCEDURE [dbo].[News_Publish]
 GO
@@ -9,7 +9,7 @@ GO
 USE [SchoolHomepage]
 GO
 
-/****** Object:  StoredProcedure [dbo].[News_Publish]    Script Date: 12/10/2014 13:52:05 ******/
+/****** Object:  StoredProcedure [dbo].[News_Publish]    Script Date: 12/10/2014 16:18:08 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -47,7 +47,7 @@ BEGIN
 		RETURN @News_ID ;
 	END TRY
 	BEGIN CATCH		ROLLBACK TRANSACTION ;
-		RETURN 0 ;
+		RETURN -1 ;
 	END CATCH
 END
 

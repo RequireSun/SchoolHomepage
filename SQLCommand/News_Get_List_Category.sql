@@ -1,7 +1,7 @@
 USE [SchoolHomepage]
 GO
 
-/****** Object:  StoredProcedure [dbo].[News_Get_List_Category]    Script Date: 12/10/2014 13:51:55 ******/
+/****** Object:  StoredProcedure [dbo].[News_Get_List_Category]    Script Date: 12/10/2014 16:18:14 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[News_Get_List_Category]') AND type in (N'P', N'PC'))
 DROP PROCEDURE [dbo].[News_Get_List_Category]
 GO
@@ -9,7 +9,7 @@ GO
 USE [SchoolHomepage]
 GO
 
-/****** Object:  StoredProcedure [dbo].[News_Get_List_Category]    Script Date: 12/10/2014 13:51:55 ******/
+/****** Object:  StoredProcedure [dbo].[News_Get_List_Category]    Script Date: 12/10/2014 16:18:14 ******/
 SET ANSI_NULLS ON
 GO
 

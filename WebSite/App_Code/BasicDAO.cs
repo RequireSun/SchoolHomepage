@@ -343,14 +343,26 @@ public class BasicDAO
         SqlCommand command = GetCommand(procedureName, parameters);
         command.CommandType = CommandType.StoredProcedure;
 
+        SqlParameter parameterReturn = new SqlParameter();
+        parameterReturn.ParameterName = "@return";
+        parameterReturn.Direction = ParameterDirection.ReturnValue;
+        command.Parameters.Add(parameterReturn);
+        
         this.Open();
-        object result = command.ExecuteNonQuery();
+        command.ExecuteNonQuery();
         this.Close();
 
-        return result;
+        return parameterReturn.Value;
     }
     #endregion
 
+    #region ExecStoredProcedureGetDataSet()执行存储过程，并返回结果表
+    /// <summary>
+    /// ExecStoredProcedureGetDataSet()执行存储过程，并返回结果
+    /// </summary>
+    /// <param name="sql">传入的sql语句</param>
+    /// <param name="parameters">参数数组</param>
+    /// <returns>返回存储过程执行结果</returns>
     protected DataSet ExecStoredProcedureGetDataSet(string procedureName, SqlParameter[] parameters)
     {
         SqlDataAdapter adapter = this.GetAdapter(procedureName, parameters);
@@ -371,4 +383,5 @@ public class BasicDAO
 
         return dataset;
     }
+    #endregion
 }

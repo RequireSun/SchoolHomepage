@@ -21,4 +21,20 @@ public class NewsDAO : BasicDAO
 
         return (null == result) ? new DataSet() : result;
     }
+
+    public int PublishNews(int categoryId, int supervisorId, string title, string article) 
+    {
+        if(1 > categoryId || 1 > supervisorId || null == title || null == article || title.Equals(string.Empty) || article.Equals(string.Empty))
+        {
+            return 0;
+        }
+
+        string procedureName = "News_Publish";
+        SqlParameter[] parameters = { BasicDAO.MakeInParameter("@Category_ID", SqlDbType.Int, -1, categoryId),
+                                      BasicDAO.MakeInParameter("@Supervisor_ID", SqlDbType.Int, -1, supervisorId),
+                                      BasicDAO.MakeInParameter("@Title", SqlDbType.NVarChar, -1, title),
+                                      BasicDAO.MakeInParameter("@Article", SqlDbType.NVarChar, -1, article) };
+
+        return Convert.ToInt32(base.ExecStoredProcedure(procedureName, parameters));
+    }
 }
