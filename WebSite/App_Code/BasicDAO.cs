@@ -45,7 +45,7 @@ public class BasicDAO
     }
     #endregion
 
-    #region MakeInParameter()传入参数并且转换为SqlParameter类型
+    #region MakeParameter()传入参数并且转换为各种方向的SqlParameter类型
     /// <summary>
     /// 转换参数 将sql语句参数封装为SqlParameter对象（方向为输入）   
     /// </summary>
@@ -57,6 +57,45 @@ public class BasicDAO
     public static SqlParameter MakeInParameter(string ParameterName, SqlDbType DbType, int Size, object Value)
     {
         return MakeParameter(ParameterName, DbType, Size, ParameterDirection.Input, Value);
+    }
+
+    /// <summary>
+    /// 转换参数 将sql语句参数封装为SqlParameter对象（方向为输出）   
+    /// </summary>
+    /// <param name="ParameterName">存储过程名称或命令文本</param>
+    /// <param name="DbType">参数类型</param></param>
+    /// <param name="Size">参数大小</param>
+    /// <param name="Value">参数值</param>
+    /// <returns>新的 Parameter 对象</returns>
+    public static SqlParameter MakeOutParameter(string ParameterName, SqlDbType DbType, int Size, object Value)
+    {
+        return MakeParameter(ParameterName, DbType, Size, ParameterDirection.Output, Value);
+    }
+
+    /// <summary>
+    /// 转换参数 将sql语句参数封装为SqlParameter对象（方向为输入输出）   
+    /// </summary>
+    /// <param name="ParameterName">存储过程名称或命令文本</param>
+    /// <param name="DbType">参数类型</param></param>
+    /// <param name="Size">参数大小</param>
+    /// <param name="Value">参数值</param>
+    /// <returns>新的 Parameter 对象</returns>
+    public static SqlParameter MakeInOutParameter(string ParameterName, SqlDbType DbType, int Size, object Value)
+    {
+        return MakeParameter(ParameterName, DbType, Size, ParameterDirection.InputOutput, Value);
+    }
+
+    /// <summary>
+    /// 转换参数 将sql语句参数封装为SqlParameter对象（方向为返回值）   
+    /// </summary>
+    /// <param name="ParameterName">存储过程名称或命令文本</param>
+    /// <param name="DbType">参数类型</param></param>
+    /// <param name="Size">参数大小</param>
+    /// <param name="Value">参数值</param>
+    /// <returns>新的 Parameter 对象</returns>
+    public static SqlParameter MakeReturnParameter(string ParameterName, SqlDbType DbType, int Size, object Value)
+    {
+        return MakeParameter(ParameterName, DbType, Size, ParameterDirection.ReturnValue, Value);
     }
 
     /// <summary>
@@ -180,7 +219,7 @@ public class BasicDAO
     /// <param name="tableName">数据存储在DataSet中的目的表名</param>
     /// <returns>存储数据的DataSet</returns>
 
-    protected DataSet GetDateSet(string sql, SqlParameter[] parameters, string tableName)
+    protected DataSet GetDataSet(string sql, SqlParameter[] parameters, string tableName)
     {
         SqlDataAdapter adapter = this.GetAdapter(sql, parameters);
         DataSet dataset = new DataSet();

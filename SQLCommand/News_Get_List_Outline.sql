@@ -1,7 +1,7 @@
 USE [SchoolHomepage]
 GO
 
-/****** Object:  StoredProcedure [dbo].[News_Get_List_Outline]    Script Date: 12/11/2014 14:04:39 ******/
+/****** Object:  StoredProcedure [dbo].[News_Get_List_Outline]    Script Date: 12/11/2014 16:32:26 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[News_Get_List_Outline]') AND type in (N'P', N'PC'))
 DROP PROCEDURE [dbo].[News_Get_List_Outline]
 GO
@@ -9,7 +9,7 @@ GO
 USE [SchoolHomepage]
 GO
 
-/****** Object:  StoredProcedure [dbo].[News_Get_List_Outline]    Script Date: 12/11/2014 14:04:39 ******/
+/****** Object:  StoredProcedure [dbo].[News_Get_List_Outline]    Script Date: 12/11/2014 16:32:26 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -31,6 +31,11 @@ BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
+
+	IF 1 > @Outline_Type OR 1 > @Page_Size OR 1 > @Page_Request
+	BEGIN
+		SELECT -1;
+	END 
 
     DECLARE @Page_Whole INTEGER,
 			@Page_Now INTEGER;
