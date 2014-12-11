@@ -1,7 +1,7 @@
 USE [SchoolHomepage]
 GO
 
-/****** Object:  StoredProcedure [dbo].[News_Publish]    Script Date: 12/10/2014 16:18:08 ******/
+/****** Object:  StoredProcedure [dbo].[News_Publish]    Script Date: 12/11/2014 14:04:48 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[News_Publish]') AND type in (N'P', N'PC'))
 DROP PROCEDURE [dbo].[News_Publish]
 GO
@@ -9,7 +9,7 @@ GO
 USE [SchoolHomepage]
 GO
 
-/****** Object:  StoredProcedure [dbo].[News_Publish]    Script Date: 12/10/2014 16:18:08 ******/
+/****** Object:  StoredProcedure [dbo].[News_Publish]    Script Date: 12/11/2014 14:04:48 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -34,9 +34,16 @@ BEGIN
 	SET NOCOUNT ON ;
 	
     DECLARE @News_ID INT ,
+			@Category_Type INT ,
 			@Publish_Date DATETIME ;
 			
 	SET @Publish_Date = GETDATE() ;
+	
+	SELECT @Category_Type = outline_id FROM category WHERE id = @Category_ID
+	IF 1 = @Category_Type
+	BEGIN
+		RETURN -1;
+	END
 	
     -- Insert statements for procedure here
 	BEGIN TRY
