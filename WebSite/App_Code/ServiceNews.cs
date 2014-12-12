@@ -12,9 +12,9 @@ using System.Web.Services;
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 // 若要允许使用 ASP.NET AJAX 从脚本中调用此 Web 服务，请取消注释以下行。 
 // [System.Web.Script.Services.ScriptService]
-public class NewsService : System.Web.Services.WebService {
+public class ServiceNews : System.Web.Services.WebService {
 
-    public NewsService () {
+    public ServiceNews () {
 
         //如果使用设计的组件，请取消注释以下行 
         //InitializeComponent(); 
