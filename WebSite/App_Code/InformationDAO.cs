@@ -12,7 +12,7 @@ public class InformationDAO : BasicDAO
 {
     public string GetInformation(int categoryId) 
     {
-        if(null == categoryId || 1 > categoryId)
+        if(1 > categoryId)
         {
             return string.Empty;
         }
@@ -25,7 +25,7 @@ public class InformationDAO : BasicDAO
 
     public string GetInformationName(int informationId)
     {
-        if (null == informationId || 1 > informationId)
+        if (1 > informationId)
         {
             return string.Empty;
         }
@@ -38,7 +38,7 @@ public class InformationDAO : BasicDAO
 
     public int UpdateInformation(int informationId, string inArticle)
     {
-        if (null == informationId || 1 > informationId)
+        if (1 > informationId)
         {
             return 0;
         }

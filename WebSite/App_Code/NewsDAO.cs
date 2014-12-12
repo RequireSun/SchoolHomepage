@@ -12,7 +12,7 @@ public class NewsDAO : BasicDAO
 {
     public DataSet GetSingleCategoryNewsListWithPageNumber(int categoryId, int pageSize, int pageRequest)
     {
-        if (null == categoryId || null == pageSize || null == pageRequest || 1 > categoryId || 1 > pageSize || 1 > pageRequest)
+        if (1 > categoryId || 1 > pageSize || 1 > pageRequest)
         {
             return new DataSet();
         }
@@ -29,7 +29,7 @@ public class NewsDAO : BasicDAO
 
     public int PublishNews(int categoryId, int supervisorId, string title, string article) 
     {
-        if (null == categoryId || null == supervisorId || 1 > categoryId || 1 > supervisorId || 
+        if (1 > categoryId || 1 > supervisorId || 
             null == title || null == article || title.Equals(string.Empty) || article.Equals(string.Empty))
         {
             return 0;
@@ -46,7 +46,7 @@ public class NewsDAO : BasicDAO
 
     public int GetNewsPageCount(int categoryId, int pageSize) 
     {
-        if (null == categoryId || null == pageSize || 1 > categoryId || 1 > pageSize)
+        if (1 > categoryId || 1 > pageSize)
         {
             return 0;
         }

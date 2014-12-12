@@ -13,7 +13,7 @@ public partial class ManagementInformationModify : System.Web.UI.Page
         {
             string categoryType = Request.QueryString["id"];
             int categoryId = Convert.ToInt32(categoryType);
-            if (null == categoryType || categoryType.Equals(string.Empty) || null == categoryId)
+            if (null == categoryType || categoryType.Equals(string.Empty))
             {
                 this.showFalseMessage("请输入正确的请求代号！");
                 return;
@@ -49,7 +49,7 @@ public partial class ManagementInformationModify : System.Web.UI.Page
     {
         string categoryType = Request.QueryString["id"];
         int categoryId = Convert.ToInt32(categoryType);
-        if (null == categoryType || categoryType.Equals(string.Empty) || null == categoryId)
+        if (null == categoryType || categoryType.Equals(string.Empty))
         {
             UtilFunctions.AlertBox("页面ID错误，请重新载入！",Page);
             return;
