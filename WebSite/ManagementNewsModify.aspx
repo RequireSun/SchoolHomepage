@@ -7,24 +7,24 @@
     <div id="failure_div" visible="false" runat="server"></div>
     <div id="success_div" runat="server">
         <form id="form1" runat="server">
-            <asp:DropDownList ID="CategoryDropDownList" runat="server"></asp:DropDownList>
+            <asp:DropDownList ID="CategoryDropDownList" runat="server" />
 
             <asp:RadioButtonList ID="OutlineRadioButtonList" runat="server" OnSelectedIndexChanged="OutlineRadioButtonList_SelectedIndexChanged" AutoPostBack="True">
-                <asp:ListItem Value="2">学院新闻</asp:ListItem>
-                <asp:ListItem Value="3">通知公告</asp:ListItem>
+                <asp:ListItem Value="2" Text="学院新闻" />
+                <asp:ListItem Value="3" Text="通知公告" />
             </asp:RadioButtonList>
 
             <br />
-            <asp:Label ID="Label1" runat="server" Text="标题"></asp:Label>
+            <span>标题</span>
             <asp:TextBox ID="TitleTextBox" runat="server"></asp:TextBox>
             <br />
             <br />
-            <asp:Label ID="Label2" runat="server" Text="内容"></asp:Label>
+            <span>内容</span>
             <asp:TextBox ID="ArticleTextBox" runat="server"></asp:TextBox>
             <br />
             <br />
             <asp:Button ID="submitButton" runat="server" OnClick="submitButton_Click" Text="确定" />
-            <asp:Label ID="promptLabel" runat="server"></asp:Label>
+            <asp:Button ID="deleteButton" runat="server" OnClick="deleteButton_Click" Text="删除" />
         </form>
     </div>
 </asp:Content>

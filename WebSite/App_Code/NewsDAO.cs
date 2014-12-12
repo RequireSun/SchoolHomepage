@@ -44,6 +44,19 @@ public class NewsDAO : BasicDAO
         return Convert.ToInt32(base.ExecStoredProcedure(procedureName, parameters));
     }
 
+    public int DeleteNews(int newsId)
+    {
+        if (1 > newsId)
+        {
+            return 0;
+        }
+
+        string procedureName = "News_Delete";
+        SqlParameter[] parameters = { BasicDAO.MakeInParameter("@News_ID", SqlDbType.Int, -1, newsId) };
+
+        return Convert.ToInt32(base.ExecStoredProcedure(procedureName, parameters));
+    }
+
     public int GetNewsPageCount(int categoryId, int pageSize)
     {
         if (1 > categoryId || 1 > pageSize)
@@ -72,7 +85,7 @@ public class NewsDAO : BasicDAO
         DataTable outlines = base.GetDataTable(sql, null);
         DataSet dataSet = new DataSet();
 
-        foreach(DataRow dr in outlines.Rows)
+        foreach (DataRow dr in outlines.Rows)
         {
             sql = "SELECT * FROM category WHERE outline_id = @outlineId";
             SqlParameter[] parameters = { BasicDAO.MakeInParameter("@outlineId", SqlDbType.Int, -1, Convert.ToInt32(dr["id"])) };

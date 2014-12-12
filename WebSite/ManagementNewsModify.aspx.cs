@@ -109,4 +109,25 @@ public partial class ManagementNewsModify : System.Web.UI.Page
             UtilFunctions.AlertBox("修改成功！", Page);
         }
     }
+
+    protected void deleteButton_Click(object sender, EventArgs e)
+    {
+        string idString = Request.QueryString["id"];
+        int idInt = Convert.ToInt32(idString);
+        if (null == idString || idString.Equals(string.Empty) || 1 > idInt)
+        {
+            UtilFunctions.AlertBox("请输入正确的请求代号！", Page);
+            return;
+        }
+
+        NewsDAO newsDao = new NewsDAO();
+        if (0 < newsDao.DeleteNews(idInt))
+        {
+            Response.Redirect("ManagementNews.aspx?type=" + CategoryDropDownList.SelectedValue + "&page_request=1");
+        }
+        else
+        {
+            UtilFunctions.AlertBox("删除失败！", Page);
+        }
+    }
 }
