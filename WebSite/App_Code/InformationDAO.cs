@@ -22,4 +22,18 @@ public class InformationDAO : BasicDAO
 
         return base.GetSingleDataInColumn(sql, parameters, "article");
     }
+
+    public string GetInformationName(int informationId)
+    {
+        if (null == informationId || 1 > informationId)
+        {
+            return string.Empty;
+        }
+
+        string sql = "SELECT name FROM category WHERE id = @InformationId";
+        SqlParameter[] parameters = { BasicDAO.MakeInParameter("@InformationId", SqlDbType.Int, -1, informationId) };
+
+        return base.GetSingleDataInColumn(sql, parameters, "name");
+
+    }
 }
