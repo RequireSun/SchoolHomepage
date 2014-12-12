@@ -9,6 +9,17 @@
     <asp:ContentPlaceHolder id="HeadHolder" runat="server"></asp:ContentPlaceHolder>
 </head>
 <body>
+    <a href="ManagementInformationModify.aspx?id=1">学院简介</a>
+    <a href="ManagementInformationModify.aspx?id=2">机构设置</a>
+    <a href="ManagementInformationModify.aspx?id=3">历史沿革</a>
+    <a href="ManagementInformationModify.aspx?id=4">校企合作</a>
+    <a href="ManagementInformationModify.aspx?id=5">实习实训</a>
+    <a href="ManagementInformationModify.aspx?id=6">专著编著</a>
+    <a href="ManagementInformationModify.aspx?id=7">科技项目与论文</a>
+    <a href="ManagementInformationModify.aspx?id=8">教学论文</a>
+    <a href="ManagementInformationModify.aspx?id=10">招生信息</a>
+    <a href="ManagementInformationModify.aspx?id=11">学生就业</a>
+    <br />
     <a href="ManagementNews.aspx?type=9&page_request=1">现任领导</a>
     <a href="ManagementNews.aspx?type=12&page_request=1">师资队伍</a>
     <a href="ManagementNews.aspx?type=18&page_request=1">教学动态</a>

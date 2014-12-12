@@ -13,43 +13,46 @@ public partial class ManagementNews : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        string categoryType = Request.QueryString["type"];
-        int categoryId = Convert.ToInt32(categoryType);
-        if (null == categoryType || categoryType.Equals(string.Empty) || null == categoryId)
+        if(!Page.IsPostBack)
         {
-            this.showFalseMessage("请输入正确的请求代号！");
-            return;
-        }
+            string categoryType = Request.QueryString["type"];
+            int categoryId = Convert.ToInt32(categoryType);
+            if (null == categoryType || categoryType.Equals(string.Empty) || null == categoryId)
+            {
+                this.showFalseMessage("请输入正确的请求代号！");
+                return;
+            }
 
-        string pageRequestString = Request.QueryString["page_request"];
-        int pageRequest = Convert.ToInt32(pageRequestString);
-        if (null == pageRequestString || pageRequestString.Equals(string.Empty) || null == pageRequest)
-        {
-            this.showFalseMessage("请输入正确的页码！");
-            return;
-        }
+            string pageRequestString = Request.QueryString["page_request"];
+            int pageRequest = Convert.ToInt32(pageRequestString);
+            if (null == pageRequestString || pageRequestString.Equals(string.Empty) || null == pageRequest)
+            {
+                this.showFalseMessage("请输入正确的页码！");
+                return;
+            }
 
-        NewsDAO newsDao = new NewsDAO();
-        int pageCount = newsDao.GetNewsPageCount(categoryId, 20);
-        if (null == pageCount || 0 == pageCount)
-        {
-            this.showOverflowMessage("该栏目目前还没有资源！");
+            NewsDAO newsDao = new NewsDAO();
+            int pageCount = newsDao.GetNewsPageCount(categoryId, 20);
+            if (null == pageCount || 0 == pageCount)
+            {
+                this.showOverflowMessage("该栏目目前还没有资源！");
+                this.initPageNumber(pageCount, pageRequest, categoryId);
+                return;
+            }
+
+            DataSet dataset = newsDao.GetSingleCategoryNewsListWithPageNumber(categoryId, 20, pageRequest);
+            if (null == dataset || 0 == dataset.Tables.Count || 0 == dataset.Tables[0].Rows.Count)
+            {
+                this.showOverflowMessage("页码超出范围！");
+                return;
+            }
+
             this.initPageNumber(pageCount, pageRequest, categoryId);
-            return;
-        }
 
-        DataSet dataset = newsDao.GetSingleCategoryNewsListWithPageNumber(categoryId, 20, pageRequest);
-        if(null == dataset || 0 == dataset.Tables.Count || 0 == dataset.Tables[0].Rows.Count)
-        {
-            this.showOverflowMessage("页码超出范围！");
-            return;
-        }
-
-        this.initPageNumber(pageCount, pageRequest, categoryId);
-
-        foreach(DataRow dr in dataset.Tables[0].Rows)
-        {
-            this.addNewsToList(dr["id"].ToString(), dr["title"].ToString(), dr["update_time"].ToString());
+            foreach (DataRow dr in dataset.Tables[0].Rows)
+            {
+                this.addNewsToList(dr["id"].ToString(), dr["title"].ToString(), dr["update_time"].ToString());
+            }
         }
     }
 
