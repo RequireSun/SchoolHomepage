@@ -34,6 +34,20 @@ public class InformationDAO : BasicDAO
         SqlParameter[] parameters = { BasicDAO.MakeInParameter("@InformationId", SqlDbType.Int, -1, informationId) };
 
         return base.GetSingleDataInColumn(sql, parameters, "name");
+    }
 
+    public int UpdateInformation(int informationId, string inArticle)
+    {
+        if (null == informationId || 1 > informationId)
+        {
+            return 0;
+        }
+        string article = (null == inArticle) ? string.Empty : inArticle;
+
+        string procedureName = "Information_Modify";
+        SqlParameter[] parameters = { BasicDAO.MakeInParameter("@Category_Id", SqlDbType.Int, -1, informationId),
+                                      BasicDAO.MakeInParameter("@Article", SqlDbType.NVarChar, article.Length, article) };
+
+        return Convert.ToInt32(base.ExecStoredProcedure(procedureName, parameters));
     }
 }
