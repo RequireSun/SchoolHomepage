@@ -73,7 +73,7 @@ public partial class ManagementNews : System.Web.UI.Page
 
     private void addNewsToList(string id, string title, string updateTime) 
     {
-        this.news_list.InnerHtml += "<li><a href='temp.aspx?id='" + id + "'>" + title + "</a>" + updateTime + "</li>";
+        this.news_list.InnerHtml += "<li><a href='ManagementNewsModify.aspx?id='" + id + "'>" + title + "</a>" + updateTime + "</li>";
     }
 
     private void initPageNumber(int pageCount,int pageCurrent, int typeNumber) 
