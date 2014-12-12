@@ -11,7 +11,8 @@ public partial class NewsManagement : System.Web.UI.Page
     public NewsManagementDAO dao = new NewsManagementDAO();
     protected void Page_Load(object sender, EventArgs e)
     {
-        int id = Int32.Parse(Request.QueryString["id"]);
+        string str = Request.QueryString["id"];
+        int id = Int32.Parse(str);
         if (!Page.IsPostBack)
         {
             DataRow dr = dao.getNewsInfo(id).Tables[0].Rows[0];
@@ -59,8 +60,7 @@ public partial class NewsManagement : System.Web.UI.Page
     {
         string title = titleTextBox.Text;
         string article = articleTextBox.Text;
-        //int id = Int32.Parse(Request.QueryString["id"]);
-        int id = 20;
+        int id = Int32.Parse(Request.QueryString["id"]);
         int categoryID = Int32.Parse(dao.getCategoryID(DropDownList1.SelectedValue).Tables[0].Rows[0]["id"].ToString());
 
         if (dao.editNews(id, categoryID, title, article) == -1)
