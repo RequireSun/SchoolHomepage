@@ -258,6 +258,29 @@ public class BasicDAO
 
         return dataset;
     }
+
+    /// <summary>
+    /// 返回DataSet的执行函数 不指定表名
+    /// </summary>
+    /// <param name="sql">sql语句</param>
+    /// <param name="parameters">SqlParameter数组</param>
+    /// <returns>存储数据的DataSet</returns>
+    protected DataTable GetDataTable(string sql, SqlParameter[] parameters)
+    {
+        SqlDataAdapter adapter = this.GetAdapter(sql, parameters);
+        DataTable datatable = new DataTable();
+
+        try
+        {
+            adapter.Fill(datatable);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message, e);
+        }
+
+        return datatable;
+    }
     #endregion
 
     #region GetSingleData()返回指定行相应列的内容

@@ -30,21 +30,17 @@ public partial class ManagementNewsModify : System.Web.UI.Page
             DataRow infoDatarow = infoDataset.Tables[0].Rows[0];
 
             int outline_id = Convert.ToInt32(infoDatarow["outline_id"].ToString());
-            OutlineRadioButtonList.Items[outline_id-2].Selected = true;
+            this.OutlineRadioButtonList.Items.FindByValue(outline_id.ToString()).Selected = true;
 
             DataSet categoryDataset = newsDao.GetCategory(outline_id,"category");
-            DropDownList1.DataSource = categoryDataset;
-            DropDownList1.DataTextField = "name";
-            DropDownList1.DataValueField = "id";
-            DropDownList1.DataBind();
-            for (int i = 0; i < DropDownList1.Items.Count; i++)
-            {
-                if (DropDownList1.Items[i].Text.Equals(infoDatarow["name"]))
-                    DropDownList1.SelectedIndex = i;
-            }
+            this.CategoryDropDownList.DataSource = categoryDataset;
+            this.CategoryDropDownList.DataTextField = "name";
+            this.CategoryDropDownList.DataValueField = "id";
+            this.CategoryDropDownList.DataBind();
+            this.CategoryDropDownList.Items.FindByValue(infoDatarow["category_id"].ToString()).Selected = true;
 
-            titleTextBox.Text = infoDatarow["title"].ToString();
-            articleTextBox.Text = infoDatarow["article"].ToString();
+            this.TitleTextBox.Text = infoDatarow["title"].ToString();
+            this.ArticleTextBox.Text = infoDatarow["article"].ToString();
         }
     }
 
@@ -56,42 +52,61 @@ public partial class ManagementNewsModify : System.Web.UI.Page
         this.failure_div.InnerText = message;
     }
 
-    protected void RadioButtonList1_SelectedIndexChanged(object sender, EventArgs e)
+    protected void OutlineRadioButtonList_SelectedIndexChanged(object sender, EventArgs e)
     {
-        int categoryID = OutlineRadioButtonList.SelectedIndex;
-        DataSet ds = null;
+        string categoryIdString = OutlineRadioButtonList.SelectedValue;
+        DataSet categoryDataset = null;
         if (null == Cache["category"])
         {
             NewsDAO newsDao = new NewsDAO();
-            ds = newsDao.GetAllCategory();
-            Cache.Insert("category", ds, null, DateTime.UtcNow.AddMinutes(10), System.Web.Caching.Cache.NoSlidingExpiration);
+            categoryDataset = newsDao.GetAllCategory();
+            Cache.Insert("category", categoryDataset, null, DateTime.UtcNow.AddMinutes(10), System.Web.Caching.Cache.NoSlidingExpiration);
         }
         else
         {
-            ds = (DataSet)Cache["category"];
+            categoryDataset = Cache["category"] as DataSet;
+            if (null == categoryDataset)
+            {
+                NewsDAO newsDao = new NewsDAO();
+                categoryDataset = newsDao.GetAllCategory();
+                Cache.Insert("category", categoryDataset, null, DateTime.UtcNow.AddMinutes(10), System.Web.Caching.Cache.NoSlidingExpiration);
+            }
         }
 
-        DropDownList1.DataSource = ds.Tables[categoryID];
-        DropDownList1.DataTextField = "name";
-        DropDownList1.DataBind();
-    }
-
-    protected void cancelButton_Click(object sender, EventArgs e)
-    {
-        //Response.Redirect("");
+        this.CategoryDropDownList.DataSource = categoryDataset.Tables[categoryIdString];
+        this.CategoryDropDownList.DataTextField = "name";
+        this.CategoryDropDownList.DataValueField = "id";
+        this.CategoryDropDownList.DataBind();
     }
 
     protected void submitButton_Click(object sender, EventArgs e)
     {
-        string title = titleTextBox.Text;
-        string article = articleTextBox.Text;
-        int id = Convert.ToInt32(Request.QueryString["id"]);
-        NewsDAO newsDao = new NewsDAO();
-        int categoryID = Convert.ToInt32(newsDao.GetCategoryID(DropDownList1.SelectedValue).Tables[0].Rows[0]["id"].ToString());
+        string idString = Request.QueryString["id"];
+        int idInt = Convert.ToInt32(idString);
+        if (null == idString || idString.Equals(string.Empty) || 1 > idInt)
+        {
+            UtilFunctions.AlertBox("请输入正确的请求代号！",Page);
+            return;
+        }
 
-        if (newsDao.EditNews(id, categoryID, title, article) == -1)
-            promptLabel.Text = "修改失败";
+        string title = TitleTextBox.Text;
+        string article = ArticleTextBox.Text;
+
+        NewsDAO newsDao = new NewsDAO();
+        int categoryId = Convert.ToInt32(this.CategoryDropDownList.SelectedValue);
+        if (1 > categoryId)
+        {
+            UtilFunctions.AlertBox("请选择正确的文章类型！", Page);
+            return;
+        }
+
+        if (-1 == newsDao.EditNews(idInt, categoryId, title, article))
+        {
+            UtilFunctions.AlertBox("修改失败！", Page);
+        }
         else
-            promptLabel.Text = "修改成功";
+        {
+            UtilFunctions.AlertBox("修改成功！", Page);
+        }
     }
 }

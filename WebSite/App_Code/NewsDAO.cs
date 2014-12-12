@@ -27,9 +27,9 @@ public class NewsDAO : BasicDAO
         return (null == result) ? new DataSet() : result;
     }
 
-    public int PublishNews(int categoryId, int supervisorId, string title, string article) 
+    public int PublishNews(int categoryId, int supervisorId, string title, string article)
     {
-        if (1 > categoryId || 1 > supervisorId || 
+        if (1 > categoryId || 1 > supervisorId ||
             null == title || null == article || title.Equals(string.Empty) || article.Equals(string.Empty))
         {
             return 0;
@@ -44,7 +44,7 @@ public class NewsDAO : BasicDAO
         return Convert.ToInt32(base.ExecStoredProcedure(procedureName, parameters));
     }
 
-    public int GetNewsPageCount(int categoryId, int pageSize) 
+    public int GetNewsPageCount(int categoryId, int pageSize)
     {
         if (1 > categoryId || 1 > pageSize)
         {
@@ -68,10 +68,20 @@ public class NewsDAO : BasicDAO
 
     public DataSet GetAllCategory()
     {
-        DataSet ds = GetCategory(2, "新闻");
-        DataTable dt = GetCategory(3, "通知").Tables[0].Copy();
-        ds.Tables.Add(dt);
-        return ds;
+        string sql = "SELECT * FROM outline";
+        DataTable outlines = base.GetDataTable(sql, null);
+        DataSet dataSet = new DataSet();
+
+        foreach(DataRow dr in outlines.Rows)
+        {
+            sql = "SELECT * FROM category WHERE outline_id = @outlineId";
+            SqlParameter[] parameters = { BasicDAO.MakeInParameter("@outlineId", SqlDbType.Int, -1, Convert.ToInt32(dr["id"])) };
+            DataTable categoryTable = base.GetDataTable(sql, parameters);
+            categoryTable.TableName = dr["id"].ToString();
+            dataSet.Tables.Add(categoryTable);
+        }
+
+        return dataSet;
     }
 
     public int EditNews(int newsID, int categoryID, string title, string article)
@@ -82,12 +92,12 @@ public class NewsDAO : BasicDAO
         }
 
         string sql = "News_Edit";
-        SqlParameter[] pa = { MakeInParameter("@News_ID",SqlDbType.Int,-1,newsID),
-                            MakeInParameter("@Category_ID",SqlDbType.Int,-1,categoryID),
-                            MakeInParameter("@Title",SqlDbType.NChar,title.Length,title),
-                            MakeInParameter("@Article",SqlDbType.NVarChar,article.Length,article) };
+        SqlParameter[] parameter = { BasicDAO.MakeInParameter("@News_ID",SqlDbType.Int,-1,newsID),
+                                     BasicDAO.MakeInParameter("@Category_ID",SqlDbType.Int,-1,categoryID),
+                                     BasicDAO.MakeInParameter("@Title",SqlDbType.NChar,title.Length,title),
+                                     BasicDAO.MakeInParameter("@Article",SqlDbType.NVarChar,article.Length,article) };
 
-        return Convert.ToInt32(ExecStoredProcedure(sql, pa).ToString());
+        return Convert.ToInt32(ExecStoredProcedure(sql, parameter).ToString());
     }
 
     public DataSet GetCategoryID(string categoryName)
