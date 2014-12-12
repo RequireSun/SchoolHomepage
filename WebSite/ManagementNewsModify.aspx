@@ -1,43 +1,30 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ManagementNewsModify.aspx.cs" Inherits="NewsManagement" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/ManagementMaster.master" AutoEventWireup="true" CodeFile="ManagementNewsModify.aspx.cs" Inherits="ManagementNewsModify" %>
 
-<!DOCTYPE html>
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadHolder" Runat="Server">
+</asp:Content>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-    <div>
-    
-        <asp:DropDownList ID="DropDownList1" runat="server" >
-        </asp:DropDownList>
-        &nbsp;
-        <asp:RadioButtonList ID="RadioButtonList1" runat="server" OnSelectedIndexChanged="RadioButtonList1_SelectedIndexChanged" AutoPostBack="True">
-            <asp:ListItem>新闻</asp:ListItem>
-            <asp:ListItem>通知</asp:ListItem>
-        </asp:RadioButtonList>
-    
-        <br />
-&nbsp;<asp:Label ID="Label1" runat="server" Text="标题"></asp:Label>
-&nbsp;&nbsp;&nbsp;
-        <asp:TextBox ID="titleTextBox" runat="server"></asp:TextBox>
-        <br />
-        <br />
-        &nbsp;<asp:Label ID="Label2" runat="server" Text="内容"></asp:Label>
-&nbsp;&nbsp;&nbsp;
-        <asp:TextBox ID="articleTextBox" runat="server"></asp:TextBox>
-        <br />
-        <br />
-        <asp:Button ID="submitButton" runat="server" OnClick="submitButton_Click" Text="确定" />
-&nbsp;&nbsp;
-        <asp:Button ID="cancelButton" runat="server" OnClick="cancelButton_Click" Text="取消" />
-    
-    &nbsp;&nbsp;&nbsp;
-        <asp:Label ID="promptLabel" runat="server"></asp:Label>
-    
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentHolder_01" Runat="Server">
+    <div id="failure_div" visible="false" runat="server"></div>
+    <div id="success_div" runat="server">
+        <form id="form1" runat="server">
+            <asp:DropDownList ID="DropDownList1" runat="server"></asp:DropDownList>
+            <asp:RadioButtonList ID="OutlineRadioButtonList" runat="server" OnSelectedIndexChanged="RadioButtonList1_SelectedIndexChanged" AutoPostBack="True">
+                <asp:ListItem>新闻</asp:ListItem>
+                <asp:ListItem>通知</asp:ListItem>
+            </asp:RadioButtonList>
+
+            <br />
+            <asp:Label ID="Label1" runat="server" Text="标题"></asp:Label>
+            <asp:TextBox ID="titleTextBox" runat="server"></asp:TextBox>
+            <br />
+            <br />
+            <asp:Label ID="Label2" runat="server" Text="内容"></asp:Label>
+            <asp:TextBox ID="articleTextBox" runat="server"></asp:TextBox>
+            <br />
+            <br />
+            <asp:Button ID="submitButton" runat="server" OnClick="submitButton_Click" Text="确定" />
+            <asp:Button ID="cancelButton" runat="server" OnClick="cancelButton_Click" Text="取消" />
+            <asp:Label ID="promptLabel" runat="server"></asp:Label>
+        </form>
     </div>
-    </form>
-</body>
-</html>
+</asp:Content>

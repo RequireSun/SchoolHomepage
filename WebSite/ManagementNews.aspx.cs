@@ -17,7 +17,7 @@ public partial class ManagementNews : System.Web.UI.Page
         {
             string categoryType = Request.QueryString["type"];
             int categoryId = Convert.ToInt32(categoryType);
-            if (null == categoryType || categoryType.Equals(string.Empty) || null == categoryId)
+            if (null == categoryType || categoryType.Equals(string.Empty))
             {
                 this.showFalseMessage("请输入正确的请求代号！");
                 return;
@@ -25,7 +25,7 @@ public partial class ManagementNews : System.Web.UI.Page
 
             string pageRequestString = Request.QueryString["page_request"];
             int pageRequest = Convert.ToInt32(pageRequestString);
-            if (null == pageRequestString || pageRequestString.Equals(string.Empty) || null == pageRequest)
+            if (null == pageRequestString || pageRequestString.Equals(string.Empty))
             {
                 this.showFalseMessage("请输入正确的页码！");
                 return;
@@ -33,7 +33,7 @@ public partial class ManagementNews : System.Web.UI.Page
 
             NewsDAO newsDao = new NewsDAO();
             int pageCount = newsDao.GetNewsPageCount(categoryId, 20);
-            if (null == pageCount || 0 == pageCount)
+            if (0 == pageCount)
             {
                 this.showOverflowMessage("该栏目目前还没有资源！");
                 this.initPageNumber(pageCount, pageRequest, categoryId);
