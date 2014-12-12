@@ -180,7 +180,7 @@ public class BasicDAO
     /// <param name="tableName">数据存储在DataSet中的目的表名</param>
     /// <returns>存储数据的DataSet</returns>
 
-    protected DataSet GetDateSet(string sql, SqlParameter[] parameters, string tableName)
+    protected DataSet GetDataSet(string sql, SqlParameter[] parameters, string tableName)
     {
         SqlDataAdapter adapter = this.GetAdapter(sql, parameters);
         DataSet dataset = new DataSet();
