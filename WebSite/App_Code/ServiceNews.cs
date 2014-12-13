@@ -59,4 +59,11 @@ public class ServiceNews : System.Web.Services.WebService {
         InformationDAO informationDao = new InformationDAO();
         return informationDao.GetInformation(informationId);
     }
+
+    [WebMethod(Description = "获取学院信息（信息ID）")]
+    public string GetInformationName(int informationId)
+    {
+        InformationDAO informationDao = new InformationDAO();
+        return informationDao.GetInformationName(informationId);
+    }
 }

@@ -51,7 +51,7 @@ public partial class ManagementNews : System.Web.UI.Page
 
             foreach (DataRow dr in dataset.Tables[0].Rows)
             {
-                this.addNewsToList(dr["id"].ToString(), dr["title"].ToString(), dr["update_time"].ToString());
+                this.addNewsToList(dr["id"].ToString(), dr["title"].ToString(), Convert.ToDateTime(dr["update_time"]).ToShortDateString());
             }
         }
     }

@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 public partial class NewsList : System.Web.UI.Page
 {
-    private string LiTags = "<li>{0}</li>";
+    private string liTags = "<li>{0}</li>";
     private string hrefTags = "<a href='{0}'>{1}</a>";
     private string spanTags = "<span>{0}</span>";
     private string newsListLink = "NewsList.aspx?type={0}&page_request={1}";
@@ -80,10 +80,9 @@ public partial class NewsList : System.Web.UI.Page
 
         foreach(DataRow dr in dataTable.Rows)
         {
-            stringBuilder.Append(string.Format(LiTags, 
+            stringBuilder.Append(string.Format(liTags, 
                                  string.Format(hrefTags, 
-                                 string.Format(newsDetailLink,dr["id"].ToString()), dr["title"].ToString()) +
-                                 dr["update_time"]));
+                                 string.Format(newsDetailLink,dr["id"].ToString()), dr["title"].ToString()) + Convert.ToDateTime(dr["update_time"]).ToShortDateString()));
         }
 
         this.news_list.InnerHtml = stringBuilder.ToString();

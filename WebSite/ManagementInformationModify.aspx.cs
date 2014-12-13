@@ -45,6 +45,7 @@ public partial class ManagementInformationModify : System.Web.UI.Page
 
         this.failure_div.InnerText = message;
     }
+
     protected void SubmitButton_Click(object sender, EventArgs e)
     {
         string categoryType = Request.QueryString["id"];

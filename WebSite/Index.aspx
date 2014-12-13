@@ -8,7 +8,6 @@
     <title></title>
 </head>
 <body>
-    <form id="form1" runat="server">
     <a href="InformationDetail.aspx?id=1">学院简介</a>
     <a href="InformationDetail.aspx?id=2">机构设置</a>
     <a href="InformationDetail.aspx?id=3">历史沿革</a>
@@ -31,6 +30,8 @@
     <a href="NewsList.aspx?type=15&page_request=1">学生动态</a>
     <a href="NewsList.aspx?type=16&page_request=1">党团建设</a>
     <a href="NewsList.aspx?type=17&page_request=1">优秀典型</a>
-    </form>
+    <br />
+    <ul id="news_list" runat="server"></ul>
+    <ul id="notify_list" runat="server"></ul>
 </body>
 </html>
