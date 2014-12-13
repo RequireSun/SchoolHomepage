@@ -74,11 +74,11 @@ public class ServiceNews : System.Web.Services.WebService {
     }
 
     [WebMethod(Description = "获取学院信息（信息ID）")]
-    public string GetInformation(int informationId)
+    public DataSet GetInformation(int informationId)
     {
         if (1 > informationId)
         {
-            return null;
+            return new DataSet();
         }
 
         InformationDAO informationDao = new InformationDAO();
