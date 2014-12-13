@@ -31,6 +31,7 @@
     <a href="ManagementNews.aspx?type=15&page_request=1">学生动态</a>
     <a href="ManagementNews.aspx?type=16&page_request=1">党团建设</a>
     <a href="ManagementNews.aspx?type=17&page_request=1">优秀典型</a>
+
     <asp:ContentPlaceHolder id="ContentHolder_01" runat="server"></asp:ContentPlaceHolder>
 </body>
 </html>
