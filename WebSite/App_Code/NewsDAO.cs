@@ -102,6 +102,18 @@ public class NewsDAO : BasicDAO
         return Convert.ToInt32(base.ExecStoredProcedure(procedureName, parameters));
     }
 
+    public DataSet GetNewsDetail(int newsId)
+    {
+        if (1 > newsId)
+        {
+            return new DataSet();
+        }
+
+        string procedureName = "News_Browse";
+        SqlParameter[] parameters = { BasicDAO.MakeInParameter("@News_ID", SqlDbType.Int, -1, newsId) };
+        return base.GetDataSet(procedureName, parameters);
+    }
+
     public DataSet GetCategory(int categoryId, string name)
     {
         string sql = "select id, name from category where outline_id=@id";
