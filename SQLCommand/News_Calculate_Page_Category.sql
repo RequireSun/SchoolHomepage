@@ -1,15 +1,15 @@
 USE [SchoolHomepage]
 GO
 
-/****** Object:  StoredProcedure [dbo].[News_Calculate_Page]    Script Date: 12/11/2014 16:32:05 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[News_Calculate_Page]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[News_Calculate_Page]
+/****** Object:  StoredProcedure [dbo].[News_Calculate_Page_Category]    Script Date: 12/13/2014 09:18:48 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[News_Calculate_Page_Category]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[News_Calculate_Page_Category]
 GO
 
 USE [SchoolHomepage]
 GO
 
-/****** Object:  StoredProcedure [dbo].[News_Calculate_Page]    Script Date: 12/11/2014 16:32:05 ******/
+/****** Object:  StoredProcedure [dbo].[News_Calculate_Page_Category]    Script Date: 12/13/2014 09:18:48 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -21,7 +21,7 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE [dbo].[News_Calculate_Page] 
+CREATE PROCEDURE [dbo].[News_Calculate_Page_Category] 
 	-- Add the parameters for the stored procedure here
 	@Category_Type INT , 
 	@Page_Size INT
@@ -31,7 +31,7 @@ BEGIN
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 	
-	IF 1 > @Page_Size
+	IF 1 > @Category_Type OR 1 > @Page_Size
 	BEGIN
 		RETURN -1;
 	END

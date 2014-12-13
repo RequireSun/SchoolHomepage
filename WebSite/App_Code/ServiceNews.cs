@@ -25,10 +25,38 @@ public class ServiceNews : System.Web.Services.WebService {
         return "Hello World";
     }
 
-    [WebMethod(Description = "Web method for getting news in one type with the page number.")]
+    [WebMethod(Description = "获取某一指定子类的指定页码的新闻列表（类型id，页面大小，请求页码）")]
     public DataSet GetSingleCategoryNewsListWithPageNumber(int categoryId, int pageSize, int pageRequest) 
     {
         NewsDAO newsDao = new NewsDAO();
         return newsDao.GetSingleCategoryNewsListWithPageNumber(categoryId, pageSize, pageRequest);
+    }
+
+    [WebMethod(Description = "获取某一指定大类的指定页码的新闻列表（类型id，页面大小，请求页码）")]
+    public DataSet GetSingleOutlineNewsListWithPageNumber(int outlineId, int pageSize, int pageRequest)
+    {
+        NewsDAO newsDao = new NewsDAO();
+        return newsDao.GetSingleOutlineNewsListWithPageNumber(outlineId, pageSize, pageRequest);
+    }
+
+    [WebMethod(Description = "获取某一子类按输入的页面大小确定的总页数（类型id，页面大小）")]
+    public int GetNewsPageCountCategory(int categoryId, int pageSize)
+    {
+        NewsDAO newsDao = new NewsDAO();
+        return newsDao.GetNewsPageCountCategory(categoryId, pageSize);
+    }
+
+    [WebMethod(Description = "获取某一大类按输入的页面大小确定的总页数（类型id，页面大小）")]
+    public int GetNewsPageCountOutline(int outlineId, int pageSize)
+    {
+        NewsDAO newsDao = new NewsDAO();
+        return newsDao.GetNewsPageCountOutline(outlineId, pageSize);
+    }
+
+    [WebMethod(Description = "获取学院信息（信息ID）")]
+    public string GetInformation(int informationId)
+    {
+        InformationDAO informationDao = new InformationDAO();
+        return informationDao.GetInformation(informationId);
     }
 }

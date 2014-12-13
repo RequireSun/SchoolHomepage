@@ -32,7 +32,7 @@ public partial class ManagementNews : System.Web.UI.Page
             }
 
             NewsDAO newsDao = new NewsDAO();
-            int pageCount = newsDao.GetNewsPageCount(categoryId, 20);
+            int pageCount = newsDao.GetNewsPageCountCategory(categoryId, 20);
             if (0 == pageCount)
             {
                 this.showOverflowMessage("该栏目目前还没有资源！");

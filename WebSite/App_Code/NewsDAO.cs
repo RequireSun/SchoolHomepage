@@ -27,6 +27,23 @@ public class NewsDAO : BasicDAO
         return (null == result) ? new DataSet() : result;
     }
 
+    public DataSet GetSingleOutlineNewsListWithPageNumber(int outlineId, int pageSize, int pageRequest)
+    {
+        if (1 > outlineId || 1 > pageSize || 1 > pageRequest)
+        {
+            return new DataSet();
+        }
+
+        string procedureName = "News_Get_List_Outline";
+        SqlParameter[] parameters = { BasicDAO.MakeInParameter("@Outline_Type", SqlDbType.Int, -1, outlineId),
+                                      BasicDAO.MakeInParameter("@Page_Size", SqlDbType.Int, -1, pageSize),
+                                      BasicDAO.MakeInParameter("@Page_Request", SqlDbType.Int, -1, pageRequest) };
+
+        DataSet result = base.ExecStoredProcedureGetDataSet(procedureName, parameters) as DataSet;
+
+        return (null == result) ? new DataSet() : result;
+    }
+
     public int PublishNews(int categoryId, int supervisorId, string title, string article)
     {
         if (1 > categoryId || 1 > supervisorId ||
@@ -57,15 +74,29 @@ public class NewsDAO : BasicDAO
         return Convert.ToInt32(base.ExecStoredProcedure(procedureName, parameters));
     }
 
-    public int GetNewsPageCount(int categoryId, int pageSize)
+    public int GetNewsPageCountCategory(int categoryId, int pageSize)
     {
         if (1 > categoryId || 1 > pageSize)
         {
             return 0;
         }
 
-        string procedureName = "News_Calculate_Page";
+        string procedureName = "News_Calculate_Page_Category";
         SqlParameter[] parameters = { BasicDAO.MakeInParameter("@Category_Type", SqlDbType.Int, -1, categoryId),
+                                      BasicDAO.MakeInParameter("@Page_Size", SqlDbType.Int, -1, pageSize) };
+
+        return Convert.ToInt32(base.ExecStoredProcedure(procedureName, parameters));
+    }
+
+    public int GetNewsPageCountOutline(int outlineId, int pageSize)
+    {
+        if (1 > outlineId || 1 > pageSize)
+        {
+            return 0;
+        }
+
+        string procedureName = "News_Calculate_Page_Outline";
+        SqlParameter[] parameters = { BasicDAO.MakeInParameter("@Outline_Type", SqlDbType.Int, -1, outlineId),
                                       BasicDAO.MakeInParameter("@Page_Size", SqlDbType.Int, -1, pageSize) };
 
         return Convert.ToInt32(base.ExecStoredProcedure(procedureName, parameters));
