@@ -13,7 +13,7 @@ public partial class ManagementNews : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if(!Page.IsPostBack)
+        if (!Page.IsPostBack)
         {
             string categoryType = Request.QueryString["type"];
             int categoryId = Convert.ToInt32(categoryType);
@@ -74,31 +74,24 @@ public partial class ManagementNews : System.Web.UI.Page
         this.overflow_div.InnerText = message;
     }
 
-    private void addNewsToList(string id, string title, string updateTime) 
+    private void addNewsToList(string id, string title, string updateTime)
     {
         this.news_list.InnerHtml += "<li><a href='ManagementNewsModify.aspx?id=" + id + "'>" + title + "</a>" + updateTime + "</li>";
     }
 
-    private void initPageNumber(int pageCount,int pageCurrent, int typeNumber) 
+    private void initPageNumber(int pageCount, int pageCurrent, int typeNumber)
     {
         StringBuilder builder = new StringBuilder();
 
         if (1 < pageCurrent)
         {
             this.pageNumberHref(builder, typeNumber, 1, "首页");
+            this.pageNumberHref(builder, typeNumber, pageCurrent - 1, "上一页");
         }
         else
         {
-            builder.Append("首页");
-        }
-
-        if (1 < pageCurrent)
-        {
-            this.pageNumberHref(builder, typeNumber, pageCurrent - 1, "上一页");
-        }
-        else 
-        {
-            builder.Append("上一页");
+            builder.Append("<span>首页</span>");
+            builder.Append("<span>上一页</span>");
         }
 
         for (int i = Math.Min(pageCurrent - 1, pageJumpSize); 0 < i; --i)
@@ -106,7 +99,9 @@ public partial class ManagementNews : System.Web.UI.Page
             this.pageNumberHref(builder, typeNumber, pageCurrent - i, (pageCurrent - i).ToString());
         }
 
+        builder.Append("<span>");
         builder.Append(pageCurrent.ToString());
+        builder.Append("</span>");
 
         for (int i = 1; Math.Min(pageCount - pageCurrent, pageJumpSize) >= i; ++i)
         {
@@ -116,19 +111,12 @@ public partial class ManagementNews : System.Web.UI.Page
         if (pageCount > pageCurrent)
         {
             this.pageNumberHref(builder, typeNumber, pageCurrent + 1, "下一页");
-        }
-        else
-        {
-            builder.Append("下一页");
-        }
-
-        if (pageCurrent < pageCount)
-        {
             this.pageNumberHref(builder, typeNumber, pageCount, "尾页");
         }
         else
         {
-            builder.Append("尾页");
+            builder.Append("<span>下一页</span>");
+            builder.Append("<span>尾页</span>");
         }
 
         this.page_select.InnerHtml = builder.ToString();
