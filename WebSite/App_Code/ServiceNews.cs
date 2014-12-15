@@ -26,6 +26,7 @@ public class ServiceNews : System.Web.Services.WebService {
     }
 
     [WebMethod(Description = "获取某一指定子类的指定页码的新闻列表（类型id，页面大小，请求页码）")]
+    //存储过称为News_Get_List_Category
     public DataSet GetSingleCategoryNewsListWithPageNumber(int categoryId, int pageSize, int pageRequest) 
     {
         NewsDAO newsDao = new NewsDAO();
@@ -33,6 +34,7 @@ public class ServiceNews : System.Web.Services.WebService {
     }
 
     [WebMethod(Description = "获取某一指定大类的指定页码的新闻列表（类型id，页面大小，请求页码）")]
+    //News_Get_List_Outline
     public DataSet GetSingleOutlineNewsListWithPageNumber(int outlineId, int pageSize, int pageRequest)
     {
         NewsDAO newsDao = new NewsDAO();
@@ -40,6 +42,7 @@ public class ServiceNews : System.Web.Services.WebService {
     }
 
     [WebMethod(Description = "获取某一子类按输入的页面大小确定的总页数（类型id，页面大小）")]
+    //News_Calculate_Page_Category
     public int GetNewsPageCountCategory(int categoryId, int pageSize)
     {
         NewsDAO newsDao = new NewsDAO();
@@ -47,6 +50,7 @@ public class ServiceNews : System.Web.Services.WebService {
     }
 
     [WebMethod(Description = "获取某一大类按输入的页面大小确定的总页数（类型id，页面大小）")]
+    //News_Calculate_Page_Outline
     public int GetNewsPageCountOutline(int outlineId, int pageSize)
     {
         NewsDAO newsDao = new NewsDAO();
