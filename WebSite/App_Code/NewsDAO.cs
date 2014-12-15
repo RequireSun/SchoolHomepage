@@ -159,4 +159,6 @@ public class NewsDAO : BasicDAO
         DataSet ds = GetDataSet(sql, pa);
         return (null == ds) ? new DataSet() : ds;
     }
+
+    
 }

@@ -66,4 +66,12 @@ public class ServiceNews : System.Web.Services.WebService {
         InformationDAO informationDao = new InformationDAO();
         return informationDao.GetInformationName(informationId);
     }
+
+    [WebMethod(Description = "获取新闻详情（新闻ID）")]
+    public DataSet GetNewsInfo(int newsID)
+    {
+        NewsDAO newDao = new NewsDAO();
+        return newDao.GetNewsInfo(newsID);
+    }
+
 }
