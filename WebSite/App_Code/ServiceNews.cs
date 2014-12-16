@@ -26,36 +26,65 @@ public class ServiceNews : System.Web.Services.WebService {
     }
 
     [WebMethod(Description = "获取某一指定子类的指定页码的新闻列表（类型id，页面大小，请求页码）")]
+    //存储过称为News_Get_List_Category
     public DataSet GetSingleCategoryNewsListWithPageNumber(int categoryId, int pageSize, int pageRequest) 
     {
+        if (1 > categoryId || 1 > pageSize || 1 > pageRequest)
+        {
+            return new DataSet();
+        }
+
         NewsDAO newsDao = new NewsDAO();
         return newsDao.GetSingleCategoryNewsListWithPageNumber(categoryId, pageSize, pageRequest);
     }
 
     [WebMethod(Description = "获取某一指定大类的指定页码的新闻列表（类型id，页面大小，请求页码）")]
+    //News_Get_List_Outline
     public DataSet GetSingleOutlineNewsListWithPageNumber(int outlineId, int pageSize, int pageRequest)
     {
+        if (1 > outlineId || 1 > pageSize || 1 > pageRequest)
+        {
+            return new DataSet();
+        }
+
         NewsDAO newsDao = new NewsDAO();
         return newsDao.GetSingleOutlineNewsListWithPageNumber(outlineId, pageSize, pageRequest);
     }
 
     [WebMethod(Description = "获取某一子类按输入的页面大小确定的总页数（类型id，页面大小）")]
+    //News_Calculate_Page_Category
     public int GetNewsPageCountCategory(int categoryId, int pageSize)
     {
+        if (1 > categoryId || 1 > pageSize)
+        {
+            return 0;
+        }
+
         NewsDAO newsDao = new NewsDAO();
         return newsDao.GetNewsPageCountCategory(categoryId, pageSize);
     }
 
     [WebMethod(Description = "获取某一大类按输入的页面大小确定的总页数（类型id，页面大小）")]
+    //News_Calculate_Page_Outline
     public int GetNewsPageCountOutline(int outlineId, int pageSize)
     {
+        if (1 > outlineId || 1 > pageSize)
+        {
+            return 0;
+        }
+
         NewsDAO newsDao = new NewsDAO();
         return newsDao.GetNewsPageCountOutline(outlineId, pageSize);
     }
 
     [WebMethod(Description = "获取学院信息（信息ID）")]
-    public string GetInformation(int informationId)
+    public DataSet GetInformation(int informationId)
     {
+        if (1 > informationId)
+        {
+            return new DataSet();
+        }
+
         InformationDAO informationDao = new InformationDAO();
         return informationDao.GetInformation(informationId);
     }
@@ -63,15 +92,24 @@ public class ServiceNews : System.Web.Services.WebService {
     [WebMethod(Description = "获取学院信息（信息ID）")]
     public string GetInformationName(int informationId)
     {
+        if (1 > informationId)
+        {
+            return null;
+        }
+
         InformationDAO informationDao = new InformationDAO();
         return informationDao.GetInformationName(informationId);
     }
 
-    [WebMethod(Description = "获取新闻详情（新闻ID）")]
-    public DataSet GetNewsInfo(int newsID)
+    [WebMethod(Description = "获取新闻（信息ID）")]
+    public DataSet GetNews(int newsId)
     {
-        NewsDAO newDao = new NewsDAO();
-        return newDao.GetNewsInfo(newsID);
-    }
+        if (1 > newsId)
+        {
+            return new DataSet();
+        }
 
+        NewsDAO newsDao = new NewsDAO();
+        return newsDao.GetNewsDetail(newsId);
+    }
 }

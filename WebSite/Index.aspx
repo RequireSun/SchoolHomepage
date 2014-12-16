@@ -31,7 +31,9 @@
     <a href="NewsList.aspx?type=16&page_request=1">党团建设</a>
     <a href="NewsList.aspx?type=17&page_request=1">优秀典型</a>
     <br />
+    <a href="OutlineList.aspx?type=2&page_request=1">学院新闻</a>
     <ul id="news_list" runat="server"></ul>
+    <a href="OutlineList.aspx?type=3&page_request=1">通知公告</a>
     <ul id="notify_list" runat="server"></ul>
 </body>
 </html>

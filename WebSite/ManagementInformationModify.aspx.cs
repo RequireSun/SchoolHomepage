@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -20,21 +21,14 @@ public partial class ManagementInformationModify : System.Web.UI.Page
             }
 
             InformationDAO informationDao = new InformationDAO();
-            string titleText = informationDao.GetInformationName(categoryId);
-            if (null == titleText || titleText.Equals(string.Empty))
+            DataSet informationDataset = informationDao.GetInformation(categoryId);
+            if (null == informationDataset || 1 > informationDataset.Tables.Count || 1 > informationDataset.Tables[0].Rows.Count)
             {
-                this.showFalseMessage("新闻编号错误！");
+                this.showFalseMessage("此类别内容待添加！");
                 return;
             }
-
-            this.TitleLabel.Text = titleText;
-            string articleText = informationDao.GetInformation(categoryId);
-            if (null == articleText)
-            {
-                this.showFalseMessage("新闻读取错误！");
-                return;
-            }
-            this.ContentTextBox.Text = articleText;
+            this.TitleLabel.Text = informationDataset.Tables[0].Rows[0]["name"].ToString();
+            this.ContentTextBox.Text = informationDataset.Tables[0].Rows[0]["article"].ToString();
         }
     }
 

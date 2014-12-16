@@ -10,17 +10,17 @@ using System.Web;
 /// </summary>
 public class InformationDAO : BasicDAO
 {
-    public string GetInformation(int categoryId) 
+    public DataSet GetInformation(int categoryId) 
     {
         if(1 > categoryId)
         {
-            return string.Empty;
+            return new DataSet();
         }
 
-        string sql = "SELECT article FROM information WHERE category_id = @CategoryId";
+        string sql = "SELECT * FROM View_Information_List WHERE category_id = @CategoryId";
         SqlParameter[] parameters = { BasicDAO.MakeInParameter("@CategoryId", SqlDbType.Int, -1, categoryId) };
 
-        return base.GetSingleDataInColumn(sql, parameters, "article");
+        return base.GetDataSet(sql, parameters);
     }
 
     public string GetInformationName(int informationId)

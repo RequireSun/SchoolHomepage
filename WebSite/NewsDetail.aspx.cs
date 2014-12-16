@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using System.Data;
 using System.Linq;
 using System.Text;
+=======
+using System.Linq;
+>>>>>>> master
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -11,6 +15,7 @@ public partial class NewsDetail : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+<<<<<<< HEAD
         if (!Page.IsPostBack)
         {
             string NewsID = Request.QueryString["id"];  //获得页面传值的id值
@@ -72,5 +77,8 @@ public partial class NewsDetail : System.Web.UI.Page
             stringBuilder.Append(dr["article"].ToString());
         }
         this.news_article.InnerHtml = stringBuilder.ToString();
+=======
+
+>>>>>>> master
     }
 }

@@ -7,12 +7,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class NewsList : System.Web.UI.Page
+public partial class OutlineList : System.Web.UI.Page
 {
     private string liTags = "<li>{0}</li>";
     private string hrefTags = "<a href='{0}'>{1}</a>";
     private string spanTags = "<span>{0}</span>";
-    private string newsListLink = "NewsList.aspx?type={0}&page_request={1}";
+    private string newsListLink = "OutlineList.aspx?type={0}&page_request={1}";
     private string newsDetailLink = "NewsDetail.aspx?id={0}";
     public static int pageJumpSize = 4;
 
@@ -20,33 +20,33 @@ public partial class NewsList : System.Web.UI.Page
     {
         if(!Page.IsPostBack)
         {
-            string categoryType = Request.QueryString["type"];  //获取页面传递的type值
-            int categoryId = Convert.ToInt32(categoryType);  //转换成int型
-            if (null == categoryType || categoryType.Equals(string.Empty))   //传值为空
+            string outlineType = Request.QueryString["type"];
+            int outlineId = Convert.ToInt32(outlineType);
+            if (null == outlineType || outlineType.Equals(string.Empty))
             {
                 this.showFalseMessage("请输入正确的请求代号！");
                 return;
             }
 
-            string pageRequestString = Request.QueryString["page_request"];   //获取页面传值的page_request值
+            string pageRequestString = Request.QueryString["page_request"];
             int pageRequest = Convert.ToInt32(pageRequestString);
             if (null == pageRequestString || pageRequestString.Equals(string.Empty))
             {
                 this.showFalseMessage("请输入正确的页码！");
-                return;   //告诉计算机执行完毕，可以没有return
+                return;
             }
 
-            ServiceNews serviceNews = new ServiceNews();  //调用webservice
-            int pageCount = serviceNews.GetNewsPageCountCategory(categoryId, 20);  //用存储过程获得子类page数
+            ServiceNews serviceNews = new ServiceNews();
+            int pageCount = serviceNews.GetNewsPageCountOutline(outlineId, 20);
             if (0 == pageCount)
             {
                 this.showOverflowMessage("该栏目目前还没有资源！");
-                this.initPageNumber(pageCount, pageRequest, categoryId);
+                this.initPageNumber(pageCount, pageRequest, outlineId);
                 return;
             }
-            this.initPageNumber(pageCount, pageRequest, categoryId);
+            this.initPageNumber(pageCount, pageRequest, outlineId);
 
-            DataSet dataset = serviceNews.GetSingleCategoryNewsListWithPageNumber(categoryId, 20, pageRequest);  //用存储过程获得新闻列表
+            DataSet dataset = serviceNews.GetSingleOutlineNewsListWithPageNumber(outlineId, 20, pageRequest);
             if (null == dataset || 0 == dataset.Tables.Count || 0 == dataset.Tables[0].Rows.Count)
             {
                 this.showOverflowMessage("页码超出范围！");
@@ -56,7 +56,6 @@ public partial class NewsList : System.Web.UI.Page
         }
     }
 
-    //显示错误信息
     private void showFalseMessage(string message)
     {
         this.failure_div.Visible = true;
@@ -65,7 +64,6 @@ public partial class NewsList : System.Web.UI.Page
         this.failure_div.InnerText = message;
     }
 
-    //显示越界信息
     private void showOverflowMessage(string message)
     {
         this.failure_div.Visible = false;
@@ -76,23 +74,21 @@ public partial class NewsList : System.Web.UI.Page
         this.overflow_div.InnerText = message;
     }
 
-    //显示页面信息列表
-    private void initNewsList(DataTable dataTable) 
+    private void initNewsList(DataTable dataTable)
     {
         StringBuilder stringBuilder = new StringBuilder();
 
-        foreach(DataRow dr in dataTable.Rows)
+        foreach (DataRow dr in dataTable.Rows)
         {
-            stringBuilder.Append(string.Format(liTags,       //liTags = "<li>{0}</li>";
-                                 string.Format(hrefTags,      // hrefTags ="<a href='{0}'>{1}</a>";
-                                 string.Format(newsDetailLink,dr["id"].ToString()), dr["title"].ToString()) + Convert.ToDateTime(dr["update_time"]).ToShortDateString()));
-        }                                     // newsDetailLink = "NewsDetail.aspx?id={0}";
+            stringBuilder.Append(string.Format(liTags,
+                                 string.Format(hrefTags,
+                                 string.Format(newsDetailLink, dr["id"].ToString()), dr["title"].ToString()) + Convert.ToDateTime(dr["update_time"]).ToShortDateString()));
+        }
 
         this.news_list.InnerHtml = stringBuilder.ToString();
     }
 
-    //显示上下页跳转设置
-    private void initPageNumber(int pageCount, int pageCurrent, int typeNumber) 
+    private void initPageNumber(int pageCount, int pageCurrent, int typeNumber)
     {
         StringBuilder stringBuilder = new StringBuilder();
         if (1 < pageCurrent)
@@ -100,7 +96,7 @@ public partial class NewsList : System.Web.UI.Page
             stringBuilder.Append(string.Format(hrefTags, string.Format(newsListLink, typeNumber, 1), "首页"));
             stringBuilder.Append(string.Format(hrefTags, string.Format(newsListLink, typeNumber, pageCurrent - 1), "上一页"));
         }
-        else 
+        else
         {
             stringBuilder.Append(string.Format(spanTags, "首页"));
             stringBuilder.Append(string.Format(spanTags, "上一页"));
