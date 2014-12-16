@@ -161,7 +161,7 @@ public partial class NewsSearch : System.Web.UI.Page
 
     private void addNewsToList(string id, string title, string updateTime)
     {
-        this.news_list.InnerHtml += "<li><a href='ManagementNewsModify.aspx?id=" + id + "'>" + title + "</a>" + updateTime + "</li>";
+        this.news_list.InnerHtml += "<li><a href='NewsDetail.aspx?id=" + id + "'>" + title + "</a>" + updateTime + "</li>";
     }
 
     protected void Button1_Click(object sender, EventArgs e)
