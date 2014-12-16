@@ -171,4 +171,56 @@ public class NewsDAO : BasicDAO
         DataSet ds = GetDataSet(sql, pa);
         return (null == ds) ? new DataSet() : ds;
     }
+
+    public int GetNewsSizeByArticle(string str, int pageSize)
+    {
+        string sql = "News_Size_Search_By_Article";
+        SqlParameter[] pa = { MakeInParameter("@Page_Size",SqlDbType.Int,-1,pageSize),
+                              MakeInParameter("@Search_Content",SqlDbType.NVarChar,str.Length,str)};
+        return Convert.ToInt32(ExecStoredProcedure(sql,pa));
+    }
+    public int GetNewsSizeByTitle(string str, int pageSize)
+    {
+        string sql = "News_Size_Search_By_Title";
+        SqlParameter[] pa = { MakeInParameter("@Page_Size",SqlDbType.Int,-1,pageSize),
+                              MakeInParameter("@Search_Content",SqlDbType.NVarChar,str.Length,str)};
+        return Convert.ToInt32(ExecStoredProcedure(sql, pa));
+    }
+    public int GetNewsSizeByTitleAndArticle(string str, int pageSize)
+    {
+        string sql = "News_Size_Search_By_Title_And_Article";
+        SqlParameter[] pa = { MakeInParameter("@Page_Size",SqlDbType.Int,-1,pageSize),
+                              MakeInParameter("@Search_Content",SqlDbType.NVarChar,str.Length,str)};
+        return Convert.ToInt32(ExecStoredProcedure(sql, pa));
+    }
+
+    public DataSet SearchNewsByArticle(string str, int pageSize, int pageRequested)
+    {
+        string sql = "News_Search_By_Article";
+        SqlParameter[] pa = { MakeInParameter("@Page_Size", SqlDbType.Int,-1,pageSize),
+                              MakeInParameter("@Page_Request",SqlDbType.Int,-1,pageRequested),
+                              MakeInParameter("@Search_Content",SqlDbType.NVarChar,str.Length,str)};
+        DataSet result = base.ExecStoredProcedureGetDataSet(sql, pa) as DataSet;
+        return (null == result) ? new DataSet() : result;
+    }
+
+    public DataSet SearchNewsByTitle(string str, int pageSize, int pageRequested)
+    {
+        string sql = "News_Search_By_Title";
+        SqlParameter[] pa = { MakeInParameter("@Page_Size", SqlDbType.Int,-1,pageSize),
+                              MakeInParameter("@Page_Request",SqlDbType.Int,-1,pageRequested),
+                              MakeInParameter("@Search_Content",SqlDbType.NVarChar,str.Length,str)};
+        DataSet result = base.ExecStoredProcedureGetDataSet(sql, pa) as DataSet;
+        return (null == result) ? new DataSet() : result;
+    }
+
+    public DataSet SearchNewsByTitleAndArticle(string str, int pageSize, int pageRequested)
+    {
+        string sql = "News_Search_By_Title_And_Article";
+        SqlParameter[] pa = { MakeInParameter("@Page_Size", SqlDbType.Int,-1,pageSize),
+                              MakeInParameter("@Page_Request",SqlDbType.Int,-1,pageRequested),
+                              MakeInParameter("@Search_Content",SqlDbType.NVarChar,str.Length,str)};
+        DataSet result = base.ExecStoredProcedureGetDataSet(sql, pa) as DataSet;
+        return (null == result) ? new DataSet() : result;
+    }
 }
