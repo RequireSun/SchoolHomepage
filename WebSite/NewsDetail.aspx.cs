@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-<<<<<<< HEAD
 using System.Data;
 using System.Linq;
 using System.Text;
-=======
 using System.Linq;
->>>>>>> master
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -15,7 +12,6 @@ public partial class NewsDetail : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-<<<<<<< HEAD
         if (!Page.IsPostBack)
         {
             string NewsID = Request.QueryString["id"];  //获得页面传值的id值
@@ -27,7 +23,7 @@ public partial class NewsDetail : System.Web.UI.Page
             }
 
             ServiceNews serviceNews = new ServiceNews();//调用webservice
-            DataSet dataSet = serviceNews.GetNewsInfo(newsID);
+            DataSet dataSet = serviceNews.GetNewsDetail(newsID);
             if (null == dataSet || 0 == dataSet.Tables.Count || 0 == dataSet.Tables[0].Rows.Count)
             {
                 this.showFalseMessage("目前尚未有新闻！");
@@ -77,8 +73,5 @@ public partial class NewsDetail : System.Web.UI.Page
             stringBuilder.Append(dr["article"].ToString());
         }
         this.news_article.InnerHtml = stringBuilder.ToString();
-=======
-
->>>>>>> master
     }
 }

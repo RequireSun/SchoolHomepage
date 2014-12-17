@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="NewsDetail.aspx.cs" Inherits="NewsDetail" %>
-<<<<<<< HEAD
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 
@@ -13,13 +12,4 @@
         </div>
         <div id="page_select" runat="server"></div>
     </div>
-=======
-
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-
-</asp:Content>
-
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-
->>>>>>> master
 </asp:Content>

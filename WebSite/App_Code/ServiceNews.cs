@@ -102,7 +102,7 @@ public class ServiceNews : System.Web.Services.WebService {
     }
 
     [WebMethod(Description = "获取新闻（信息ID）")]
-    public DataSet GetNews(int newsId)
+    public DataSet GetNewsDetail(int newsId)
     {
         if (1 > newsId)
         {
