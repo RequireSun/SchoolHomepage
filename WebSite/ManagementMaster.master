@@ -1,0 +1,37 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="ManagementMaster.master.cs" Inherits="ManagementMaster" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>哈尔滨工业大学（威海）软件学院-后台管理</title>
+    <asp:ContentPlaceHolder id="HeadHolder" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body>
+    <a href="ManagementInformationModify.aspx?id=1">学院简介</a>
+    <a href="ManagementInformationModify.aspx?id=2">机构设置</a>
+    <a href="ManagementInformationModify.aspx?id=3">历史沿革</a>
+    <a href="ManagementInformationModify.aspx?id=4">校企合作</a>
+    <a href="ManagementInformationModify.aspx?id=5">实习实训</a>
+    <a href="ManagementInformationModify.aspx?id=6">专著编著</a>
+    <a href="ManagementInformationModify.aspx?id=7">科技项目与论文</a>
+    <a href="ManagementInformationModify.aspx?id=8">教学论文</a>
+    <a href="ManagementInformationModify.aspx?id=10">招生信息</a>
+    <a href="ManagementInformationModify.aspx?id=11">学生就业</a>
+    <br />
+    <a href="ManagementNews.aspx?type=9&page_request=1">现任领导</a>
+    <a href="ManagementNews.aspx?type=12&page_request=1">师资队伍</a>
+    <a href="ManagementNews.aspx?type=18&page_request=1">教学动态</a>
+    <a href="ManagementNews.aspx?type=13&page_request=1">学科建设</a>
+    <a href="ManagementNews.aspx?type=14&page_request=1">人才培养</a>
+    <a href="ManagementNews.aspx?type=19&page_request=1">就业信息</a>
+    <a href="ManagementNews.aspx?type=20&page_request=1">实习实践</a>
+    <a href="ManagementNews.aspx?type=21&page_request=1">学生思政</a>
+    <a href="ManagementNews.aspx?type=15&page_request=1">学生动态</a>
+    <a href="ManagementNews.aspx?type=16&page_request=1">党团建设</a>
+    <a href="ManagementNews.aspx?type=17&page_request=1">优秀典型</a>
+
+    <asp:ContentPlaceHolder id="ContentHolder_01" runat="server"></asp:ContentPlaceHolder>
+</body>
+</html>

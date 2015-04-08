@@ -1,0 +1,6 @@
+Debug/
+Release/
+obj/
+Bin/
+
+*.suo
