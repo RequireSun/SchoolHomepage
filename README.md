@@ -1,6 +1,4 @@
-#==================================================================
 #For security reasons, this project has stopped updating on Github.
-#==================================================================
 
 ##SchoolHomepage
 
